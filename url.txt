@@ -1,1 +1,1 @@
-https://github.com/Nanangsr/E-Commerce-Project
+https://e-commerce-project-nanangsr.streamlit.app/
