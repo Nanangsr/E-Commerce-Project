@@ -79,39 +79,31 @@ st.pyplot(plt)
 # Tambahkan subtitle pada dashboard
 st.subheader("Tren Penjualan E-Commerce dari Waktu ke Waktu")
 
-# Menghitung jumlah transaksi per bulan
-monthly_sales = data.groupby('month_year')['order_id'].count().reset_index()
-monthly_sales.columns = ['month_year', 'transaction_count']
-
-# Konversi kolom order_purchase_timestamp ke datetime
+# Pastikan order_purchase_timestamp berbentuk datetime
 data['order_purchase_timestamp'] = pd.to_datetime(data['order_purchase_timestamp'], errors='coerce')
 
-# Periksa nilai NaT jika ada kesalahan konversi
-st.write(f"Jumlah nilai NaT setelah konversi: {data['order_purchase_timestamp'].isna().sum()}")
+# Tampilkan kolom untuk debugging
+st.write(data.columns)
 
-data = data.dropna(subset=['order_purchase_timestamp'])
-
-# Membuat kolom month_year
+# Buat kolom 'month_year'
 data['month_year'] = data['order_purchase_timestamp'].dt.to_period('M')
 
-# Pastikan 'month_year' dalam format datetime untuk visualisasi
+# Hitung jumlah transaksi bulanan
 monthly_sales = data.groupby('month_year')['order_id'].count().reset_index()
 monthly_sales.columns = ['month_year', 'transaction_count']
 
-# Konversi month_year ke datetime
+# Konversi 'month_year' ke datetime untuk visualisasi
 monthly_sales['month_year'] = monthly_sales['month_year'].astype(str)
 monthly_sales['month_year'] = pd.to_datetime(monthly_sales['month_year'], format='%Y-%m')
 
-st.write(monthly_sales.head())  # Periksa hasil pengolahan
-
-# Visualisasi tren penjualan dari waktu ke waktu
+# Visualisasi
 plt.figure(figsize=(16, 6))
 sns.lineplot(data=monthly_sales, x='month_year', y='transaction_count', marker='o', color='blue')
 plt.title('Tren Penjualan E-Commerce dari Waktu ke Waktu')
 plt.xlabel('Bulan-Tahun')
 plt.ylabel('Jumlah Transaksi')
-plt.grid(True)
 plt.xticks(rotation=45)
+plt.grid(True)
 st.pyplot(plt)
 
 # Tampilkan visualisasi di Streamlit
