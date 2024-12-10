@@ -82,9 +82,6 @@ st.subheader("Tren Penjualan E-Commerce dari Waktu ke Waktu")
 # Pastikan order_purchase_timestamp berbentuk datetime
 data['order_purchase_timestamp'] = pd.to_datetime(data['order_purchase_timestamp'], errors='coerce')
 
-# Tampilkan kolom untuk debugging
-st.write(data.columns)
-
 # Buat kolom 'month_year'
 data['month_year'] = data['order_purchase_timestamp'].dt.to_period('M')
 
@@ -104,9 +101,6 @@ plt.xlabel('Bulan-Tahun')
 plt.ylabel('Jumlah Transaksi')
 plt.xticks(rotation=45)
 plt.grid(True)
-st.pyplot(plt)
-
-# Tampilkan visualisasi di Streamlit
 st.pyplot(plt)
 
 # Plot 3: Tingkat Kepuasan Pelanggan pada Tahun Terakhir
