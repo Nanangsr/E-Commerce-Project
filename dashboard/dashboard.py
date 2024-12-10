@@ -79,9 +79,6 @@ st.pyplot(plt)
 # Tambahkan subtitle pada dashboard
 st.subheader("Tren Penjualan E-Commerce dari Waktu ke Waktu")
 
-# Buat kolom month_year (kombinasi Bulan dan Tahun)
-data['month_year'] = data['order_purchase_timestamp'].dt.to_period('M')
-
 # Menghitung jumlah transaksi per bulan
 monthly_sales = data.groupby('month_year')['order_id'].count().reset_index()
 monthly_sales.columns = ['month_year', 'transaction_count']
@@ -89,16 +86,19 @@ monthly_sales.columns = ['month_year', 'transaction_count']
 # Konversi kolom order_purchase_timestamp ke datetime
 data['order_purchase_timestamp'] = pd.to_datetime(data['order_purchase_timestamp'], errors='coerce')
 
-# Periksa apakah ada nilai yang gagal dikonversi
-st.write(data['order_purchase_timestamp'].isna().sum(), " baris memiliki nilai NaT (tidak valid)")
+# Periksa nilai NaT jika ada kesalahan konversi
+st.write(f"Jumlah nilai NaT setelah konversi: {data['order_purchase_timestamp'].isna().sum()}")
 
 data = data.dropna(subset=['order_purchase_timestamp'])
 
-# Mengelompokkan data berdasarkan bulan-tahun
+# Membuat kolom month_year
+data['month_year'] = data['order_purchase_timestamp'].dt.to_period('M')
+
+# Pastikan 'month_year' dalam format datetime untuk visualisasi
 monthly_sales = data.groupby('month_year')['order_id'].count().reset_index()
 monthly_sales.columns = ['month_year', 'transaction_count']
 
-# Konversi kembali ke datetime untuk visualisasi
+# Konversi month_year ke datetime
 monthly_sales['month_year'] = monthly_sales['month_year'].astype(str)
 monthly_sales['month_year'] = pd.to_datetime(monthly_sales['month_year'], format='%Y-%m')
 
