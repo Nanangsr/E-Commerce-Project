@@ -79,7 +79,7 @@ st.pyplot(plt)
 # Tambahkan subtitle pada dashboard
 st.subheader("Tren Penjualan E-Commerce dari Waktu ke Waktu")
 
-# Pastikan order_purchase_timestamp berbentuk datetime
+# Pastikan kolom 'order_purchase_timestamp' berbentuk datetime
 data['order_purchase_timestamp'] = pd.to_datetime(data['order_purchase_timestamp'], errors='coerce')
 
 # Buat kolom 'month_year'
@@ -92,6 +92,9 @@ monthly_sales.columns = ['month_year', 'transaction_count']
 # Konversi 'month_year' ke datetime untuk visualisasi
 monthly_sales['month_year'] = monthly_sales['month_year'].astype(str)
 monthly_sales['month_year'] = pd.to_datetime(monthly_sales['month_year'], format='%Y-%m')
+
+# Debugging: Pastikan bulan lengkap hingga bulan ke-10
+st.write(monthly_sales)
 
 # Visualisasi
 plt.figure(figsize=(16, 6))
