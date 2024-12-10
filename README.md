@@ -20,6 +20,7 @@ Proyek ini adalah sebuah dashboard interaktif yang memberikan gambaran tentang a
 4. Jalankan dashboard dengan menjalankan perintah:
    streamlit run dashboard.py
 
+link dashboard :  https://e-commerce-project-ng.streamlit.app/
    
 ## Penulis:
 NANANGSR
