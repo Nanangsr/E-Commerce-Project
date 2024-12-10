@@ -76,12 +76,19 @@ plt.tight_layout()
 st.pyplot(plt)
 
 # Plot 2: Tren Penjualan E-Commerce dari Waktu ke Waktu
+# Tambahkan subtitle pada dashboard
 st.subheader("Tren Penjualan E-Commerce dari Waktu ke Waktu")
-monthly_sales = data.groupby('order_year')['order_id'].count().reset_index()
+
+# Buat kolom month_year (kombinasi Bulan dan Tahun)
+data['month_year'] = data['order_purchase_timestamp'].dt.to_period('M')
+
+# Menghitung jumlah transaksi per bulan
+monthly_sales = data.groupby('month_year')['order_id'].count().reset_index()
 monthly_sales.columns = ['month_year', 'transaction_count']
 
-# Mengonversi 'month_year' ke datetime
-monthly_sales['month_year'] = pd.to_datetime(monthly_sales['month_year'], format='%Y')
+# Konversi kolom month_year ke format datetime
+monthly_sales['month_year'] = monthly_sales['month_year'].astype(str)
+monthly_sales['month_year'] = pd.to_datetime(monthly_sales['month_year'], format='%Y-%m')
 
 # Visualisasi tren penjualan dari waktu ke waktu
 plt.figure(figsize=(16, 6))
@@ -91,6 +98,8 @@ plt.xlabel('Bulan-Tahun')
 plt.ylabel('Jumlah Transaksi')
 plt.xticks(rotation=45)
 plt.grid(True)
+
+# Tampilkan visualisasi di Streamlit
 st.pyplot(plt)
 
 # Plot 3: Tingkat Kepuasan Pelanggan pada Tahun Terakhir
