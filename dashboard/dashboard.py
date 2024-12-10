@@ -29,7 +29,7 @@ st.write("""
 # Load Data
 @st.cache
 def load_data():
-    return pd.read_csv("./main_data.csv")  
+    return pd.read_csv("main_data.csv")  
 data = load_data()
 
 # Sidebar untuk filter interaktif
