@@ -18,7 +18,7 @@ Proyek ini adalah sebuah dashboard interaktif yang memberikan gambaran tentang a
 2. Instal dependensi yang dibutuhkan dengan menjalankan perintah:
    pip install -r requirements.txt
 4. Jalankan dashboard dengan menjalankan perintah:
-   streamlit run dashboard.py
+   streamlit run dashboard/dashboard.py
 
 link dashboard :  https://e-commerce-project-ng.streamlit.app/
    
