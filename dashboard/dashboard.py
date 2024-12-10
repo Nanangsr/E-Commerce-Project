@@ -86,9 +86,23 @@ data['month_year'] = data['order_purchase_timestamp'].dt.to_period('M')
 monthly_sales = data.groupby('month_year')['order_id'].count().reset_index()
 monthly_sales.columns = ['month_year', 'transaction_count']
 
-# Konversi kolom month_year ke format datetime
+# Konversi kolom order_purchase_timestamp ke datetime
+data['order_purchase_timestamp'] = pd.to_datetime(data['order_purchase_timestamp'], errors='coerce')
+
+# Periksa apakah ada nilai yang gagal dikonversi
+st.write(data['order_purchase_timestamp'].isna().sum(), " baris memiliki nilai NaT (tidak valid)")
+
+data = data.dropna(subset=['order_purchase_timestamp'])
+
+# Mengelompokkan data berdasarkan bulan-tahun
+monthly_sales = data.groupby('month_year')['order_id'].count().reset_index()
+monthly_sales.columns = ['month_year', 'transaction_count']
+
+# Konversi kembali ke datetime untuk visualisasi
 monthly_sales['month_year'] = monthly_sales['month_year'].astype(str)
 monthly_sales['month_year'] = pd.to_datetime(monthly_sales['month_year'], format='%Y-%m')
+
+st.write(monthly_sales.head())  # Periksa hasil pengolahan
 
 # Visualisasi tren penjualan dari waktu ke waktu
 plt.figure(figsize=(16, 6))
@@ -96,8 +110,9 @@ sns.lineplot(data=monthly_sales, x='month_year', y='transaction_count', marker='
 plt.title('Tren Penjualan E-Commerce dari Waktu ke Waktu')
 plt.xlabel('Bulan-Tahun')
 plt.ylabel('Jumlah Transaksi')
-plt.xticks(rotation=45)
 plt.grid(True)
+plt.xticks(rotation=45)
+st.pyplot(plt)
 
 # Tampilkan visualisasi di Streamlit
 st.pyplot(plt)
