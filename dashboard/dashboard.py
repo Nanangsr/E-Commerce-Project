@@ -93,9 +93,6 @@ monthly_sales.columns = ['month_year', 'transaction_count']
 monthly_sales['month_year'] = monthly_sales['month_year'].astype(str)
 monthly_sales['month_year'] = pd.to_datetime(monthly_sales['month_year'], format='%Y-%m')
 
-# Debugging: Pastikan bulan lengkap hingga bulan ke-10
-st.write(monthly_sales)
-
 # Visualisasi
 plt.figure(figsize=(16, 6))
 sns.lineplot(data=monthly_sales, x='month_year', y='transaction_count', marker='o', color='blue')
